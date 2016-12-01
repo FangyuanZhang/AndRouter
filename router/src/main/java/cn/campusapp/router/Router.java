@@ -5,8 +5,6 @@ import android.content.Context;
 import java.util.Queue;
 
 import cn.campusapp.router.route.IRoute;
-import cn.campusapp.router.router.ActivityRouter;
-import cn.campusapp.router.router.BrowserRouter;
 import cn.campusapp.router.router.HistoryItem;
 import cn.campusapp.router.router.IActivityRouteTableInitializer;
 import cn.campusapp.router.router.IRouter;
@@ -83,14 +81,6 @@ public class Router {
 
     public static boolean openRoute(IRoute route){
         return RouterManager.getSingleton().openRoute(route);
-    }
-
-    public static void setActivityRouter(ActivityRouter router){
-        RouterManager.getSingleton().setActivityRouter(router);
-    }
-
-    public static void setBrowserRouter(BrowserRouter router){
-        RouterManager.getSingleton().setBrowserRouter(router);
     }
 
     public static Queue<HistoryItem> getActivityChangedHistories(){

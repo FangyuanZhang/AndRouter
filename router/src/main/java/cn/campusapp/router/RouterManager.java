@@ -131,21 +131,6 @@ public class RouterManager {
         return false;
     }
 
-    /**
-     * set your own activity router
-     */
-    public void setActivityRouter(ActivityRouter router){
-        addRouter(router);
-    }
-
-    /**
-     * set your own BrowserRouter
-     */
-    public void setBrowserRouter(BrowserRouter router){
-        addRouter(router);
-    }
-
-
     public Queue<HistoryItem> getActivityChangedHistories(){
         ActivityRouter aRouter = null;
         for(IRouter router : mRouters){

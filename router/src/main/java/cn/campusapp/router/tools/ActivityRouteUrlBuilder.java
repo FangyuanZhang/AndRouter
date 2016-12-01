@@ -67,7 +67,7 @@ public class ActivityRouteUrlBuilder {
     public String build(){
         Matcher matcher = Pattern.compile(":[i, f, l, d, s, c]?\\{[a-zA-Z0-9]+?\\}").matcher(mPath);
         if(matcher.find()){
-            Timber.w(TAG, "Not all the key settled");
+            Timber.w("Not all the key settled");
         }
         return mPath;
     }
