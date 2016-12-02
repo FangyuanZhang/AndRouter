@@ -2,6 +2,7 @@ package com.laobai.dynamicrouter.router;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import java.util.Map;
 
@@ -11,39 +12,27 @@ import timber.log.Timber;
 /**
  * Created by kris on 16/12/1.
  */
-public class RouterTryer {
+public class RouterTry {
 
     public static void tryOpenOr(Context context, String routeUrl, String defaultUrl){
-
-        boolean isSuccess = false;
-        //首先尝试用原生的Activity打开，如果无法打开，则使用WebView打开
-        try {
-            Uri uri = Uri.parse(routeUrl)
-                    .buildUpon()
-                    .scheme("activity")
-                    .build();
-            if (!Router.open(context, uri.toString())) {
-                Uri httpUri = Uri.parse(routeUrl)
-                        .buildUpon()
-                        .scheme("http")
-                        .build();
-                isSuccess = Router.open(context, httpUri.toString());
-            } else {
-                isSuccess = true;
+        if(!TextUtils.isEmpty(routeUrl)){
+            if(!Router.open(context, routeUrl)){
+                Router.open(context, defaultUrl);
             }
-        } catch (Exception e){
-            Timber.e(e, "");
-        }
-        if(!isSuccess){
+        } else {
             Router.open(context, defaultUrl);
         }
 
     }
 
     public static void tryOpenOr(Context context, String routeUrl, String defaultUrl, Map<String, String> queryParam){
-        String routeUrlWithQuery = appendQueryParam(routeUrl, queryParam);
-        String defaultUrlWithQuery = appendQueryParam(defaultUrl, queryParam);
-        tryOpenOr(context, routeUrlWithQuery, defaultUrlWithQuery);
+        if(TextUtils.isEmpty(routeUrl)){
+            Router.open(context, defaultUrl);
+        } else {
+            String routeUrlWithQuery = appendQueryParam(routeUrl, queryParam);
+            String defaultUrlWithQuery = appendQueryParam(defaultUrl, queryParam);
+            tryOpenOr(context, routeUrlWithQuery, defaultUrlWithQuery);
+        }
     }
 
 
@@ -56,8 +45,6 @@ public class RouterTryer {
             for (String key : queryPrams.keySet()) {
                 builder.appendQueryParameter(key, queryPrams.get(key));
             }
-
-
             urlWithQuery = builder.build().toString();
         } catch (Exception e){
             Timber.e(e, "");

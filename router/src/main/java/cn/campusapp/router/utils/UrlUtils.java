@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import timber.log.Timber;
@@ -65,6 +66,22 @@ public class UrlUtils {
         try{
             Uri uri = Uri.parse(url);
             return uri.buildUpon().appendQueryParameter(key, value).build().toString();
+        } catch (Exception e){
+            Timber.e(e, "");
+        }
+        return url;
+    }
+
+
+
+    public static String addQueryParameters(String url, Map<String, String> parameters){
+        try{
+            Uri uri = Uri.parse(url);
+            Uri.Builder builder = uri.buildUpon();
+            for(String key : parameters.keySet()) {
+                builder.appendQueryParameter(key, parameters.get(key));
+            }
+            return builder.toString();
         } catch (Exception e){
             Timber.e(e, "");
         }

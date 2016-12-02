@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.laobai.dynamicrouter.net.ServiceCreator;
+import com.laobai.dynamicrouter.router.DynamicRouter;
+import com.laobai.dynamicrouter.router.DynamicWebRouter;
 import com.laobai.dynamicrouter.router.RouterCache;
 import com.laobai.dynamicrouter.router.WebRouter;
 
@@ -26,12 +28,11 @@ public class App extends Application {
         Timber.plant(new Timber.DebugTree());
         Router.initActivityRouter(getContext());
         Router.addRouter(new WebRouter());
+        Router.addRouter(new DynamicRouter());
+        Router.addRouter(new DynamicWebRouter());
     }
-
 
     public static Context getContext(){
         return APPLICATION_CONTEXT;
     }
-
-
 }

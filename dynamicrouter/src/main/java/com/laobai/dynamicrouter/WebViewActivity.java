@@ -1,10 +1,10 @@
 package com.laobai.dynamicrouter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
@@ -17,7 +17,7 @@ import timber.log.Timber;
 /**
  * webview，用于关于页面
  */
-public class WebViewActivity extends Activity {
+public class WebViewActivity extends AppCompatActivity {
     public static final String ABOUT_BLANK = "about:blank";   //空白页
     public static final String WEB_APP_URL_KEY = "webapp";
     public static final String WEB_APP_TITLE = "webtitle";

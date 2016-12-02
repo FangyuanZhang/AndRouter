@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.laobai.dynamicrouter.router.RouterCache;
-import com.laobai.dynamicrouter.router.RouterTryer;
+import com.laobai.dynamicrouter.router.RouterTry;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +34,7 @@ public class TwoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //这样直接写btn one 的key不太好，最好改成annotation的方式
-                RouterTryer.tryOpenOr(TwoActivity.this, RouterCache.getRoute(KEY_ACTION_ONE), "activity://three");
+                RouterTry.tryOpenOr(TwoActivity.this, RouterCache.getRoute(KEY_ACTION_ONE), "activity://three");
             }
         });
 

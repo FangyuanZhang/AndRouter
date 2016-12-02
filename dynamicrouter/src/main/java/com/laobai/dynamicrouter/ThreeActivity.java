@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.laobai.dynamicrouter.router.RouterCache;
-import com.laobai.dynamicrouter.router.RouterTryer;
+import com.laobai.dynamicrouter.router.RouterTry;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +27,7 @@ public class ThreeActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RouterTryer.tryOpenOr(ThreeActivity.this, RouterCache.getRoute(KEY_ACTION_ONE), "http://www.sina.com");
+                RouterTry.tryOpenOr(ThreeActivity.this, RouterCache.getRoute(KEY_ACTION_ONE), "http://www.sina.com");
             }
         });
     }

@@ -2,8 +2,11 @@ package com.laobai.dynamicrouter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
@@ -13,6 +16,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import cn.campusapp.router.utils.UrlUtils;
 import timber.log.Timber;
 
 /**
@@ -27,6 +31,7 @@ import timber.log.Timber;
 public class FunctionalWebView extends WebView {
 
     Context mContext;
+    boolean hasLoad = false;
 
 
     ProgressChangedListener mProgressChangedListener;
@@ -97,7 +102,6 @@ public class FunctionalWebView extends WebView {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-
         }
 
         @Override
@@ -107,7 +111,21 @@ public class FunctionalWebView extends WebView {
             }
         }
 
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if(TextUtils.equals(UrlUtils.getScheme(url), "dynamic") || TextUtils.equals(UrlUtils.getScheme(url), "dynamicWeb")) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                mContext.startActivity(intent);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
+
+
 
     private class CaptureChromeClient extends WebChromeClient {
         @Override

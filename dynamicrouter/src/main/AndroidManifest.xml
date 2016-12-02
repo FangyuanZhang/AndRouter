@@ -23,6 +23,18 @@
         <activity android:name=".ThreeActivity"/>
 
         <activity android:name=".WebViewActivity"/>
+
+        <activity android:name=".RouterDispatchActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="dynamic"/>
+                <data android:scheme="dynamicWeb"/>
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

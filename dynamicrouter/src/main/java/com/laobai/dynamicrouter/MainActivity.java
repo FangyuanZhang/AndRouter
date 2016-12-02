@@ -8,7 +8,7 @@ import android.widget.Button;
 import com.laobai.dynamicrouter.net.RouterService;
 import com.laobai.dynamicrouter.net.ServiceCreator;
 import com.laobai.dynamicrouter.router.RouterCache;
-import com.laobai.dynamicrouter.router.RouterTryer;
+import com.laobai.dynamicrouter.router.RouterTry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RouterTryer.tryOpenOr(MainActivity.this, RouterCache.getRoute(KEY_ACTION_ONE), "activity://two");
+                RouterTry.tryOpenOr(MainActivity.this, RouterCache.getRoute(KEY_ACTION_ONE), "activity://two");
             }
         });
 
@@ -64,14 +64,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put(TwoActivity.KEY_NAME, "Tango");
-                RouterTryer.tryOpenOr(MainActivity.this, RouterCache.getRoute(KEY_ACTION_TWO), "activity://three", map);
+                RouterTry.tryOpenOr(MainActivity.this, RouterCache.getRoute(KEY_ACTION_TWO), "activity://three", map);
             }
         });
 
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RouterTryer.tryOpenOr(MainActivity.this, RouterCache.getRoute(KEY_ACTION_THREE), "http://www.baidu.com");
+                RouterTry.tryOpenOr(MainActivity.this, RouterCache.getRoute(KEY_ACTION_THREE), "http://www.baidu.com");
             }
         });
 
