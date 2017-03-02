@@ -60,5 +60,24 @@
         android:layout_height="40dp"
         android:text="Unknow"/>
 
+    <Button
+        android:id="@+id/btn9"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="SOUHU"/>
+
+    <Button
+        android:id="@+id/btn10"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="INTERCEPTED"/>
+
+    <Button
+        android:id="@+id/btn11"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="INTERCEPTED_USE_AR"/>
+
+
 
 </LinearLayout>

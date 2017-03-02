@@ -2,6 +2,7 @@ package cn.campusapp.router.router;
 
 import android.content.Context;
 
+import cn.campusapp.router.interceptor.Interceptor;
 import cn.campusapp.router.route.IRoute;
 
 /**
@@ -54,7 +55,7 @@ public interface IRouter {
      */
     Class<? extends IRoute> getCanOpenRoute();
 
-
+    void setInterceptor(Interceptor interceptor);
 
 
 

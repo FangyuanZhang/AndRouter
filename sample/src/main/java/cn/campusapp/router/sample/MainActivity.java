@@ -13,6 +13,7 @@ import java.util.Queue;
 import cn.campusapp.router.Router;
 import cn.campusapp.router.annotation.RouterMap;
 import cn.campusapp.router.route.ActivityRoute;
+import cn.campusapp.router.router.ActivityRouter;
 import cn.campusapp.router.router.HistoryItem;
 import timber.log.Timber;
 @RouterMap("activity://main")
@@ -35,6 +36,12 @@ public class MainActivity extends Activity {
 
     Button btn8;
 
+    Button btn9;
+
+    Button btn10;
+
+    Button btn11;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +54,9 @@ public class MainActivity extends Activity {
         btn6 = (Button) findViewById(R.id.btn6);
         btn7 = (Button) findViewById(R.id.btn7);
         btn8 = (Button) findViewById(R.id.btn8);
-
-
-
+        btn9 = (Button) findViewById(R.id.btn9);
+        btn10 = (Button) findViewById(R.id.btn10);
+        btn11 = (Button) findViewById(R.id.btn11);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +111,30 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 openUnknowUrl();
+            }
+        });
+
+        btn9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Router.open(MainActivity.this, "http://www.souhu.com");
+            }
+        });
+
+        btn10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Router.open(MainActivity.this, "activity://intercepted");
+            }
+        });
+
+        btn11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityRouter.getInstance()
+                        .getRoute("activity://intercepted")
+                        .withOpenMethodStart(MainActivity.this)
+                        .open();
             }
         });
     }

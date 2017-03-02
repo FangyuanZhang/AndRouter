@@ -42,9 +42,9 @@ public class ActivityRouter extends BaseRouter {
     private static final String DEFAULT_SCHEME = "activity";
     private static final int HISTORY_CACHE_SIZE = 20;
 
-    static ActivityRouter mActivityRouter = new ActivityRouter();   //Activity
+    private static ActivityRouter mActivityRouter = new ActivityRouter();   //Activity
 
-    public static final String KEY_URL = "key_and_activity_router_url";
+    private static final String KEY_URL = "key_and_activity_router_url";
 
     static {
         CAN_OPEN_ROUTE = ActivityRoute.class;
@@ -60,9 +60,8 @@ public class ActivityRouter extends BaseRouter {
         }
     }
 
-    Context mBaseContext;
-    Map<String, Class<? extends Activity>> mRouteTable = new HashMap<>();
-    CircularFifoQueue<HistoryItem> mHistoryCaches = new CircularFifoQueue<>(HISTORY_CACHE_SIZE);
+    private Map<String, Class<? extends Activity>> mRouteTable = new HashMap<>();
+    private CircularFifoQueue<HistoryItem> mHistoryCaches = new CircularFifoQueue<>(HISTORY_CACHE_SIZE);
 
 
     public static ActivityRouter getInstance(){
@@ -70,21 +69,13 @@ public class ActivityRouter extends BaseRouter {
     }
 
     public void init(Context appContext, IActivityRouteTableInitializer initializer) {
-        mBaseContext = appContext;
+        super.init(appContext);
         initActivityRouterTable(initializer);
     }
 
-
+    @Override
     public void init(Context appContext) {
-        mBaseContext = appContext;
-
-        for (String pathRule : mRouteTable.keySet()) {
-            boolean isValid = ActivityRouteRuleBuilder.isActivityRuleValid(pathRule);
-            if (!isValid) {
-                Timber.e(new InvalidRoutePathException(pathRule), "");
-                mRouteTable.remove(pathRule);
-            }
-        }
+        init(appContext, null);
     }
 
     public void initActivityRouterTable(IActivityRouteTableInitializer initializer) {
@@ -110,10 +101,8 @@ public class ActivityRouter extends BaseRouter {
 
     @Override
     public boolean canOpenTheRoute(IRoute route) {
-
         return CAN_OPEN_ROUTE.equals(route.getClass());
     }
-
 
     @Override
     public boolean canOpenTheUrl(String url) {
@@ -169,18 +158,30 @@ public class ActivityRouter extends BaseRouter {
             try {
                 switch (aRoute.getOpenType()) {
                     case ActivityRoute.START:
+                        if(doOnInterceptor(aRoute.getActivity(), route.getUrl())){
+                            return true;
+                        }
                         open(aRoute, aRoute.getActivity());
                         ret = true;
                         break;
                     case ActivityRoute.FOR_RESULT_ACTIVITY:
+                        if(doOnInterceptor(aRoute.getActivity(), route.getUrl())){
+                            return true;
+                        }
                         openForResult(aRoute, aRoute.getActivity(), aRoute.getRequestCode());
                         ret = true;
                         break;
                     case ActivityRoute.FOR_RESULT_SUPPORT_FRAGMENT:
+                        if(doOnInterceptor(aRoute.getSupportFragment().getActivity(), route.getUrl())){
+                            return true;
+                        }
                         openForResult(aRoute, aRoute.getSupportFragment(), aRoute.getRequestCode());
                         ret = true;
                         break;
                     case ActivityRoute.FOR_RESULT_FRAGMENT:
+                        if(doOnInterceptor(aRoute.getFragment().getActivity(), route.getUrl())){
+                            return true;
+                        }
                         openForResult(aRoute, aRoute.getFragment(), aRoute.getRequestCode());
                         ret = true;
                         break;
@@ -206,6 +207,9 @@ public class ActivityRouter extends BaseRouter {
 
     @Override
     public boolean open(Context context, String url) {
+        if(doOnInterceptor(context, url)){
+            return true;
+        }
         IRoute route = getRoute(url);
         if(route instanceof ActivityRoute){
             ActivityRoute aRoute = (ActivityRoute) route;
@@ -215,6 +219,13 @@ public class ActivityRouter extends BaseRouter {
             } catch (Exception e){
                 Timber.e(e, "Url route not specified: %s", route.getUrl());
             }
+        }
+        return false;
+    }
+
+    private boolean doOnInterceptor(Context context, String url){
+        if(interceptor != null){
+            return interceptor.intercept(context != null ? context : mBaseContext, url);
         }
         return false;
     }

@@ -18,8 +18,6 @@ import static cn.campusapp.router.utils.UrlUtils.getScheme;
 public class BrowserRouter extends BaseRouter {
     private static final Set<String> SCHEMES_CAN_OPEN = new LinkedHashSet<>();
 
-    private Context mBaseContext;
-
     static BrowserRouter mBrowserRouter = new BrowserRouter();  //浏览器
 
 
@@ -32,10 +30,16 @@ public class BrowserRouter extends BaseRouter {
         return mBrowserRouter;
     }
 
-    public void init(Context context){
-        mBaseContext = context;
+    protected boolean open(Context context, IRoute route){
+        if(doOnInterceptor(context, route.getUrl())){
+            return true;
+        }
+        Uri uri = Uri.parse(route.getUrl());
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        return true;
     }
-
 
     @Override
     public boolean open(IRoute route) {
@@ -51,14 +55,6 @@ public class BrowserRouter extends BaseRouter {
     @Override
     public boolean open(Context context, String url) {
         return open(context, getRoute(url));
-    }
-
-    protected boolean open(Context context, IRoute route){
-        Uri uri = Uri.parse(route.getUrl());
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        return true;
     }
 
     @Override
@@ -81,5 +77,14 @@ public class BrowserRouter extends BaseRouter {
     @Override
     public Class<? extends IRoute> getCanOpenRoute() {
         return BrowserRoute.class;
+    }
+
+
+
+    private boolean doOnInterceptor(Context context, String url){
+        if(interceptor != null){
+            return interceptor.intercept(context, url);
+        }
+        return false;
     }
 }

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import cn.campusapp.router.interceptor.Interceptor;
 import cn.campusapp.router.route.IRoute;
 import cn.campusapp.router.router.ActivityRouter;
 import cn.campusapp.router.router.BrowserRouter;
@@ -34,7 +35,6 @@ public class RouterManager {
         return singleton;
     }
 
-
     public synchronized void addRouter(IRouter router){
         if(router != null){
             //first remove all the duplicate routers
@@ -50,6 +50,12 @@ public class RouterManager {
             Timber.e(new NullPointerException("The Router" +
                     "is null" +
                     ""), "");
+        }
+    }
+
+    public void setInterceptor(Interceptor interceptor){
+        for(IRouter router : mRouters){
+            router.setInterceptor(interceptor);
         }
     }
 
@@ -141,6 +147,8 @@ public class RouterManager {
         }
         return aRouter != null ? aRouter.getRouteHistories() : null;
     }
+
+
 
 
 }

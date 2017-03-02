@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.Queue;
 
+import cn.campusapp.router.interceptor.Interceptor;
 import cn.campusapp.router.route.IRoute;
 import cn.campusapp.router.router.HistoryItem;
 import cn.campusapp.router.router.IActivityRouteTableInitializer;
@@ -29,7 +30,6 @@ public class Router {
     public static synchronized void initActivityRouter(Context context){
         RouterManager.getSingleton().initActivityRouter(context);
     }
-
 
     /**
      * @See
@@ -87,5 +87,8 @@ public class Router {
         return RouterManager.getSingleton().getActivityChangedHistories();
     }
 
+    public static void setInterceptor(Interceptor interceptor){
+        RouterManager.getSingleton().setInterceptor(interceptor);
+    }
 
 }
