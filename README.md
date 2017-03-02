@@ -226,6 +226,30 @@ And add it to the RouterManager
 ```java
 	Router.addRouter(new TestRouter());
 ```
+
+### Interceptor
+It support interceptor after version 1.2.8. There is a example that intercept url in black list and go to another error page. You can also use it to do the things like going to the login page when users want to do something needing to be logined.
+
+```java
+	private static final HashMap<String, String> INTERCEPTOR_BLACK_LIST_SET = new LinkedHashMap<>();
+	static {
+   		INTERCEPTOR_BLACK_LIST_SET.put("http://www.souhu.com", "activity://error");
+   		INTERCEPTOR_BLACK_LIST_SET.put("activity://intercepted", "activity://error");
+   	}
+	Router.setInterceptor(new Interceptor() {
+	
+	  	@Override
+	   public boolean intercept(Context context, String url) {
+	   		if(INTERCEPTOR_BLACK_LIST_SET.keySet().contains(url)){
+	   			Router.open(context, INTERCEPTOR_BLACK_LIST_SET.get(url));
+	    	      return true;
+	       }
+	    	return false;
+	   }
+   });  
+```
+
+
 ## Install
 In the build.gradle file of your project. You need to:
 
@@ -256,8 +280,8 @@ Then, in the build.gradle file of your app module, you need to add these depende
 apply plugin: 'android-apt'
 
 dependencies {
-    compile 'com.github.campusappcn.AndRouter:router:1.2.4'
-    apt 'com.github.campusappcn.AndRouter:compiler:1.2.4'
+    compile 'com.github.campusappcn.AndRouter:router:1.2.8'
+    apt 'com.github.campusappcn.AndRouter:compiler:1.2.8'
 }
 ```
 
