@@ -149,11 +149,11 @@ public class MainActivity extends Activity {
     }
 
     private void openSecondActivity(){
-        Router.open(this, "activity://second/汤二狗");
+        Router.open(this, "activity://second/%s", "汤二狗");
     }
 
     private void openSecondActivityWithVerticalAnim(){
-        ActivityRoute activityRoute = (ActivityRoute) Router.getRoute("activity://second/汤二狗");
+        ActivityRoute activityRoute = (ActivityRoute) Router.getRoute("activity://second/%s", "汤二狗");
         activityRoute
                 .setAnimation(this, R.anim.in_from_left, R.anim.out_to_right)
                 .open();
@@ -162,7 +162,7 @@ public class MainActivity extends Activity {
     }
 
     private void openSecondActivityWithHorizontalAnim(){
-        ActivityRoute activityRoute = (ActivityRoute) Router.getRoute("activity://second/汤二狗");
+        ActivityRoute activityRoute = (ActivityRoute) Router.getRoute("activity://second/%s", "汤二狗");
         activityRoute.setAnimation(this, R.anim.in_from_top, R.anim.out_to_bottom)
                 .open();
     }
@@ -184,7 +184,7 @@ public class MainActivity extends Activity {
 
     private void openThirdActivityWithExtraValueUsingAnotherRoute(){
         Date date = new Date();
-        ActivityRoute activityRoute = (ActivityRoute) Router.getRoute("activity2://third2?text=33");
+        ActivityRoute activityRoute = (ActivityRoute) Router.getRoute("activity2://third2?text=%d", 33);
         toasts("" + activityRoute
                 .withParams("date", date)
                 .open());

@@ -2,6 +2,7 @@ package cn.campusapp.router;
 
 import android.content.Context;
 
+import java.util.Locale;
 import java.util.Queue;
 
 import cn.campusapp.router.interceptor.Interceptor;
@@ -51,12 +52,14 @@ public class Router {
         RouterManager.getSingleton().initActivityRouter(context, scheme);
     }
 
-    public static boolean open(String url){
-        return RouterManager.getSingleton().open(url);
+    public static boolean open(String url, Object ... params){
+        String temp = String.format(Locale.ENGLISH, url, params);
+        return RouterManager.getSingleton().open(temp);
     }
 
-    public static boolean open(Context context, String url){
-        return RouterManager.getSingleton().open(context, url);
+    public static boolean open(Context context, String url, Object ... params){
+        String temp = String.format(Locale.ENGLISH, url, params);
+        return RouterManager.getSingleton().open(context, temp);
     }
 
     /**
@@ -74,8 +77,9 @@ public class Router {
      * @param url
      * @return
      */
-    public static IRoute getRoute(String url){
-        return RouterManager.getSingleton().getRoute(url);
+    public static IRoute getRoute(String url, Object ... params){
+        String temp = String.format(Locale.ENGLISH, url, params);
+        return RouterManager.getSingleton().getRoute(temp);
     }
 
 
