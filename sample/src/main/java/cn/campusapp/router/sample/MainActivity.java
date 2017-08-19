@@ -117,7 +117,7 @@ public class MainActivity extends Activity {
         btn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Router.open(MainActivity.this, "http://www.souhu.com");
+                Router.open(MainActivity.this, "https://yue.laobai.com/react/search/?q=%E9%A1%BA%E4%B8%B0%E4%BC%98%E9%80%89");
             }
         });
 

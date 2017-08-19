@@ -53,12 +53,12 @@ public class Router {
     }
 
     public static boolean open(String url, Object ... params){
-        String temp = String.format(Locale.ENGLISH, url, params);
+        String temp = formatUrl(url, params);
         return RouterManager.getSingleton().open(temp);
     }
 
     public static boolean open(Context context, String url, Object ... params){
-        String temp = String.format(Locale.ENGLISH, url, params);
+        String temp = formatUrl(url, params);
         return RouterManager.getSingleton().open(context, temp);
     }
 
@@ -78,7 +78,7 @@ public class Router {
      * @return
      */
     public static IRoute getRoute(String url, Object ... params){
-        String temp = String.format(Locale.ENGLISH, url, params);
+        String temp = formatUrl(url, params);
         return RouterManager.getSingleton().getRoute(temp);
     }
 
@@ -93,6 +93,18 @@ public class Router {
 
     public static void setInterceptor(Interceptor interceptor){
         RouterManager.getSingleton().setInterceptor(interceptor);
+    }
+
+    private static String formatUrl(String url, Object ... params) {
+        String formatted = url;
+        try {
+            formatted = String.format(Locale.ENGLISH, url, params);
+        } catch (Exception e) {
+            Timber.e("ops", e);
+        }
+
+        return formatted;
+
     }
 
 }
